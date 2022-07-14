@@ -12,14 +12,6 @@ export class UsersService {
     this.usersDBController = dbController.usersController;
   }
 
-  getAll() {
-    return this.usersDBController.getAll();
-  }
-
-  getById(userId: string) {
-    return this.usersDBController.getById(userId);
-  }
-
   create(userData: CreateUserDto) {
     const newUser = {
       ...userData,
@@ -31,7 +23,15 @@ export class UsersService {
     return this.usersDBController.create(newUser);
   }
 
-  update(userId: string, updatePasswordDto: UpdatePasswordDto) {
+  getAll() {
+    return this.usersDBController.getAll();
+  }
+
+  getById(userId: string) {
+    return this.usersDBController.getById(userId);
+  }
+
+  changePassword(userId: string, updatePasswordDto: UpdatePasswordDto) {
     return this.usersDBController.changePassword(userId, updatePasswordDto);
   }
 

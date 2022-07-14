@@ -2,13 +2,25 @@ import { User } from '../interfaces';
 import { UpdatePasswordDto } from '../users/dto/update-password.dto';
 
 export class UsersDBController {
-  users: User[];
+  private users: User[];
 
   constructor() {
     this.users = [];
+
+    this.getAll = this.getAll.bind(this);
+    this.getById = this.getById.bind(this);
+    this.create = this.create.bind(this);
+    this.changePassword = this.changePassword.bind(this);
+    this.delete = this.delete.bind(this);
+  }
+
+  create(user: User): User {
+    this.users.push(user);
+    return this.getById(user.id);
   }
 
   getAll(): User[] {
+    if (this.users.length === 0) return undefined;
     return this.users.map((user) => {
       return this.removePasswordField(user);
     });
@@ -20,11 +32,6 @@ export class UsersDBController {
     return this.removePasswordField(user);
   }
 
-  create(user: User): User {
-    this.users.push(user);
-    return this.getById(user.id);
-  }
-
   changePassword(id: string, updatePasswordDto: UpdatePasswordDto): User {
     const { oldPassword, newPassword } = updatePasswordDto;
 
@@ -34,6 +41,7 @@ export class UsersDBController {
     if (user.password !== oldPassword)
       throw new Error('Old password is incorrect');
 
+    user.updatedAt = Date.now();
     user.password = newPassword;
     return this.removePasswordField(user);
   }

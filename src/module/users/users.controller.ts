@@ -18,6 +18,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
+  }
+
   @Get()
   getAll() {
     return this.usersService.getAll();
@@ -30,11 +35,6 @@ export class UsersController {
     return this.usersService.getById(userId);
   }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
   @Put('/:userId')
   update(
     @Param('userId') userId: string,
@@ -44,7 +44,7 @@ export class UsersController {
     this.checkUserExists(userId);
 
     try {
-      this.usersService.update(userId, updatePasswordDto);
+      this.usersService.changePassword(userId, updatePasswordDto);
     } catch (e) {
       if (e.message === 'Old password is incorrect')
         throw new HttpException({}, HttpStatus.FORBIDDEN);
@@ -60,13 +60,13 @@ export class UsersController {
     this.usersService.delete(userId);
   }
 
-  validateUUID(userId: string) {
+  private validateUUID(userId: string) {
     const isUUID = this.usersService.validateUUID(userId);
     if (!isUUID)
       throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
   }
 
-  checkUserExists(userId: string) {
+  private checkUserExists(userId: string) {
     const user = this.usersService.getById(userId);
     if (!user) throw new HttpException('User not exists', HttpStatus.NOT_FOUND);
   }
