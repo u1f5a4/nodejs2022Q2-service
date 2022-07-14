@@ -1,6 +1,7 @@
-import { User } from '../interfaces';
+import { Track, User } from '../interfaces';
 import { UpdatePasswordDto } from '../users/dto/update-password.dto';
 import { UsersDBController } from './users';
+import { TracksDBController } from './tracks';
 
 export interface IDBController {
   usersController: {
@@ -10,12 +11,23 @@ export interface IDBController {
     changePassword: (id: string, dto: UpdatePasswordDto) => User;
     delete: (id: string) => void;
   };
+  tracksController: {
+    getAll: () => Track[] | undefined;
+    getById: (id: string) => Track;
+    create: (track: Track) => Track;
+    update: (id: string, track: Partial<Track>) => Track;
+    delete: (id: string) => void;
+  };
 }
 
 export class DBController implements IDBController {
   usersController: IDBController['usersController'];
+  tracksController: IDBController['tracksController'];
 
-  constructor(private readonly UsersDBController: UsersDBController) {
+  constructor(
+    private readonly UsersDBController: UsersDBController,
+    private readonly TracksDBController: TracksDBController,
+  ) {
     this.usersController = {
       getAll: UsersDBController.getAll,
       getById: UsersDBController.getById,
@@ -23,8 +35,17 @@ export class DBController implements IDBController {
       changePassword: UsersDBController.changePassword,
       delete: UsersDBController.delete,
     };
+
+    this.tracksController = {
+      getAll: TracksDBController.getAll,
+      getById: TracksDBController.getById,
+      create: TracksDBController.create,
+      update: TracksDBController.update,
+      delete: TracksDBController.delete,
+    };
   }
 }
 
 const usersController = new UsersDBController();
-export const dbController = new DBController(usersController);
+const tracksController = new TracksDBController();
+export const dbController = new DBController(usersController, tracksController);
