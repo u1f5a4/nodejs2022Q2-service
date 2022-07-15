@@ -1,32 +1,22 @@
-import { Track, User } from '../interfaces';
-import { UpdatePasswordDto } from '../users/dto/update-password.dto';
-import { UsersDBController } from './users';
-import { TracksDBController } from './tracks';
+import { IUsersDBController, UsersDBController } from './users';
+import { ITracksDBController, TracksDBController } from './tracks';
+import { ArtistsDBController, IArtistsDBController } from './artists';
 
 export interface IDBController {
-  usersController: {
-    getAll: () => User[] | undefined;
-    getById: (id: string) => User;
-    create: (user: User) => User;
-    changePassword: (id: string, dto: UpdatePasswordDto) => User;
-    delete: (id: string) => void;
-  };
-  tracksController: {
-    getAll: () => Track[] | undefined;
-    getById: (id: string) => Track;
-    create: (track: Track) => Track;
-    update: (id: string, track: Partial<Track>) => Track;
-    delete: (id: string) => void;
-  };
+  usersController: IUsersDBController;
+  tracksController: ITracksDBController;
+  artistsController: IArtistsDBController;
 }
 
 export class DBController implements IDBController {
   usersController: IDBController['usersController'];
   tracksController: IDBController['tracksController'];
+  artistsController: IDBController['artistsController'];
 
   constructor(
     private readonly UsersDBController: UsersDBController,
     private readonly TracksDBController: TracksDBController,
+    private readonly ArtistsDBController: ArtistsDBController,
   ) {
     this.usersController = {
       getAll: UsersDBController.getAll,
@@ -43,9 +33,23 @@ export class DBController implements IDBController {
       update: TracksDBController.update,
       delete: TracksDBController.delete,
     };
+
+    this.artistsController = {
+      getAll: ArtistsDBController.getAll,
+      getById: ArtistsDBController.getById,
+      create: ArtistsDBController.create,
+      update: ArtistsDBController.update,
+      delete: ArtistsDBController.delete,
+    };
   }
 }
 
 const usersController = new UsersDBController();
 const tracksController = new TracksDBController();
-export const dbController = new DBController(usersController, tracksController);
+const artistsController = new ArtistsDBController();
+
+export const dbController = new DBController(
+  usersController,
+  tracksController,
+  artistsController,
+);

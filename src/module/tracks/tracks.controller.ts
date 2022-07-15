@@ -12,6 +12,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+
 import { TracksService } from './tracks.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -35,6 +36,7 @@ export class TracksController {
   getById(@Param('id') id: string) {
     this.validateUUID(id);
     this.checkTrackExists(id);
+
     return this.tracksService.getById(id);
   }
 

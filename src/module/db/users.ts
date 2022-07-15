@@ -1,7 +1,15 @@
 import { User } from '../interfaces';
 import { UpdatePasswordDto } from '../users/dto/update-password.dto';
 
-export class UsersDBController {
+export interface IUsersDBController {
+  getAll: () => User[] | undefined;
+  getById: (id: string) => User;
+  create: (user: User) => User;
+  changePassword: (id: string, dto: UpdatePasswordDto) => User;
+  delete: (id: string) => void;
+}
+
+export class UsersDBController implements IUsersDBController {
   private users: User[];
 
   constructor() {

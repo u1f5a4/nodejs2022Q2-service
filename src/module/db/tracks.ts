@@ -1,6 +1,14 @@
 import { Track } from '../interfaces';
 
-export class TracksDBController {
+export interface ITracksDBController {
+  getAll: () => Track[] | undefined;
+  getById: (id: string) => Track;
+  create: (track: Track) => Track;
+  update: (id: string, track: Partial<Track>) => Track;
+  delete: (id: string) => void;
+}
+
+export class TracksDBController implements ITracksDBController {
   tracks: Track[];
 
   constructor() {
