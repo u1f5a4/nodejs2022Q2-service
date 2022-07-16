@@ -1,16 +1,13 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+
 import { TracksService } from './tracks.service';
 import { TracksController } from './tracks.controller';
-import { APP_PIPE } from '@nestjs/core';
+import { DeleteFieldModule } from '../delete-field/delete-field.module';
 
 @Module({
+  imports: [DeleteFieldModule],
   controllers: [TracksController],
-  providers: [
-    TracksService,
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe,
-    },
-  ],
+  providers: [TracksService],
+  exports: [TracksService],
 })
 export class TracksModule {}

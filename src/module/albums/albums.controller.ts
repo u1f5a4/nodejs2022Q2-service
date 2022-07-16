@@ -37,7 +37,7 @@ export class AlbumsController {
     this.isUUID(id);
     this.exists(id);
 
-    return this.albumsService.findOne(id);
+    return this.albumsService.getById(id);
   }
 
   @Put(':id')
@@ -58,14 +58,14 @@ export class AlbumsController {
   }
 
   private isUUID(id: string) {
-    const isUUID = this.albumsService.validate(id);
+    const isUUID = this.albumsService.validateUUID(id);
     if (!isUUID) {
       throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
     }
   }
 
   private exists(id: string) {
-    const exists = this.albumsService.findOne(id);
+    const exists = this.albumsService.getById(id);
     if (!exists) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }

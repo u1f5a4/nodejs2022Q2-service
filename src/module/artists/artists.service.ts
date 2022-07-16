@@ -4,13 +4,14 @@ import { Injectable } from '@nestjs/common';
 import { dbController, IDBController } from '../db/db';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
+import { DeleteFieldService } from '../delete-field/delete-field.service';
 
 @Injectable()
 export class ArtistsService {
-  artistsDBController: IDBController['artistsController'];
+  artistsDBController: IDBController['artistsDBController'];
 
-  constructor() {
-    this.artistsDBController = dbController.artistsController;
+  constructor(private readonly deleteFieldService: DeleteFieldService) {
+    this.artistsDBController = dbController.artistsDBController;
   }
 
   create(createArtistDto: CreateArtistDto) {
@@ -34,7 +35,7 @@ export class ArtistsService {
   }
 
   delete(id: string) {
-    this.artistsDBController.delete(id);
+    this.deleteFieldService.deleteField('artist', id);
   }
 
   validateUUID(id: string) {

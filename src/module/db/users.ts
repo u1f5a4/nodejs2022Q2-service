@@ -2,7 +2,7 @@ import { User } from '../interfaces';
 import { UpdatePasswordDto } from '../users/dto/update-password.dto';
 
 export interface IUsersDBController {
-  getAll: () => User[] | undefined;
+  getAll: () => User[];
   getById: (id: string) => User;
   create: (user: User) => User;
   changePassword: (id: string, dto: UpdatePasswordDto) => User;
@@ -28,7 +28,7 @@ export class UsersDBController implements IUsersDBController {
   }
 
   getAll(): User[] {
-    if (this.users.length === 0) return undefined;
+    // if (this.users.length === 0) return undefined;
     return this.users.map((user) => {
       return this.removePasswordField(user);
     });
@@ -49,8 +49,10 @@ export class UsersDBController implements IUsersDBController {
     if (user.password !== oldPassword)
       throw new Error('Old password is incorrect');
 
+    user.version += 1;
     user.updatedAt = Date.now();
     user.password = newPassword;
+
     return this.removePasswordField(user);
   }
 
@@ -64,6 +66,7 @@ export class UsersDBController implements IUsersDBController {
   removePasswordField(user: User): User {
     const copyUser = { ...user };
     delete copyUser.password;
+
     return copyUser;
   }
 }

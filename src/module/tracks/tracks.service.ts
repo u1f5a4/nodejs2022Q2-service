@@ -4,19 +4,20 @@ import { Injectable } from '@nestjs/common';
 import { dbController, IDBController } from 'src/module/db/db';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
+import { DeleteFieldService } from '../delete-field/delete-field.service';
 
 @Injectable()
 export class TracksService {
-  tracksDBController: IDBController['tracksController'];
+  tracksDBController: IDBController['tracksDBController'];
 
-  constructor() {
-    this.tracksDBController = dbController.tracksController;
+  constructor(private readonly deleteFieldService: DeleteFieldService) {
+    this.tracksDBController = dbController.tracksDBController;
   }
 
   create(createTrackDto: CreateTrackDto) {
     const newTrack = {
-      ...createTrackDto,
       id: uuid(),
+      ...createTrackDto,
     };
     return this.tracksDBController.create(newTrack);
   }
@@ -34,7 +35,7 @@ export class TracksService {
   }
 
   delete(id: string) {
-    this.tracksDBController.delete(id);
+    this.deleteFieldService.deleteField('track', id);
   }
 
   validateUUID(id: string) {

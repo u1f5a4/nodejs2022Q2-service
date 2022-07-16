@@ -2,27 +2,31 @@ import { IUsersDBController, UsersDBController } from './users';
 import { ITracksDBController, TracksDBController } from './tracks';
 import { ArtistsDBController, IArtistsDBController } from './artists';
 import { AlbumsDBController, IAlbumsDBController } from './albums';
+import { FavsDBController, IFavsDBController } from './favs';
 
 export interface IDBController {
-  usersController: IUsersDBController;
-  tracksController: ITracksDBController;
-  artistsController: IArtistsDBController;
-  albumsController: IAlbumsDBController;
+  usersDBController: IUsersDBController;
+  tracksDBController: ITracksDBController;
+  artistsDBController: IArtistsDBController;
+  albumsDBController: IAlbumsDBController;
+  favsDBController: IFavsDBController;
 }
 
 export class DBController implements IDBController {
-  usersController: IDBController['usersController'];
-  tracksController: IDBController['tracksController'];
-  artistsController: IDBController['artistsController'];
-  albumsController: IDBController['albumsController'];
+  usersDBController: IUsersDBController;
+  tracksDBController: ITracksDBController;
+  artistsDBController: IArtistsDBController;
+  albumsDBController: IAlbumsDBController;
+  favsDBController: IFavsDBController;
 
   constructor(
     private readonly UsersDBController: UsersDBController,
     private readonly TracksDBController: TracksDBController,
     private readonly ArtistsDBController: ArtistsDBController,
     private readonly AlbumsDBController: AlbumsDBController,
+    private readonly FavsDBController: FavsDBController,
   ) {
-    this.usersController = {
+    this.usersDBController = {
       create: UsersDBController.create,
       getAll: UsersDBController.getAll,
       getById: UsersDBController.getById,
@@ -30,15 +34,17 @@ export class DBController implements IDBController {
       delete: UsersDBController.delete,
     };
 
-    this.tracksController = {
+    this.tracksDBController = {
       create: TracksDBController.create,
       getAll: TracksDBController.getAll,
       getById: TracksDBController.getById,
       update: TracksDBController.update,
       delete: TracksDBController.delete,
+      nullAlbum: TracksDBController.nullAlbum,
+      nullArtist: TracksDBController.nullArtist,
     };
 
-    this.artistsController = {
+    this.artistsDBController = {
       create: ArtistsDBController.create,
       getAll: ArtistsDBController.getAll,
       getById: ArtistsDBController.getById,
@@ -46,24 +52,37 @@ export class DBController implements IDBController {
       delete: ArtistsDBController.delete,
     };
 
-    this.albumsController = {
+    this.albumsDBController = {
       create: AlbumsDBController.create,
       getAll: AlbumsDBController.getAll,
       getById: AlbumsDBController.getById,
       update: AlbumsDBController.update,
       delete: AlbumsDBController.delete,
+      nullArtist: AlbumsDBController.nullArtist,
+    };
+
+    this.favsDBController = {
+      getAll: FavsDBController.getAll,
+      addTrack: FavsDBController.addTrack,
+      removeTrack: FavsDBController.removeTrack,
+      addAlbum: FavsDBController.addAlbum,
+      removeAlbum: FavsDBController.removeAlbum,
+      addArtist: FavsDBController.addArtist,
+      removeArtist: FavsDBController.removeArtist,
     };
   }
 }
 
-const usersController = new UsersDBController();
-const tracksController = new TracksDBController();
-const artistsController = new ArtistsDBController();
-const albumsController = new AlbumsDBController();
+const usersDBController = new UsersDBController();
+const tracksDBController = new TracksDBController();
+const artistsDBController = new ArtistsDBController();
+const albumsDBController = new AlbumsDBController();
+const favsDBController = new FavsDBController();
 
 export const dbController = new DBController(
-  usersController,
-  tracksController,
-  artistsController,
-  albumsController,
+  usersDBController,
+  tracksDBController,
+  artistsDBController,
+  albumsDBController,
+  favsDBController,
 );

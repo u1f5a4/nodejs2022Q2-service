@@ -6,6 +6,7 @@ export interface IAlbumsDBController {
   getById: (id: string) => Album;
   update: (id: string, album: Partial<Album>) => Album;
   delete: (id: string) => void;
+  nullArtist: (id: string) => void;
 }
 
 export class AlbumsDBController implements IAlbumsDBController {
@@ -19,6 +20,7 @@ export class AlbumsDBController implements IAlbumsDBController {
     this.getById = this.getById.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
+    this.nullArtist = this.nullArtist.bind(this);
   }
 
   create(album: Album): Album {
@@ -45,5 +47,12 @@ export class AlbumsDBController implements IAlbumsDBController {
   delete(id: string) {
     const albumIndex = this.albums.findIndex((album) => album.id === id);
     this.albums.splice(albumIndex, 1);
+  }
+
+  nullArtist(artistId: string) {
+    const albumIndex = this.albums.findIndex((a) => a.artistId === artistId);
+    if (albumIndex === -1) return;
+
+    this.albums[albumIndex].artistId = null;
   }
 }
