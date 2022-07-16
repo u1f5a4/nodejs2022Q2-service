@@ -6,17 +6,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-  usersDBController: IDBController['usersController'];
+  usersDBController: IDBController['usersDBController'];
 
   constructor() {
-    this.usersDBController = dbController.usersController;
+    this.usersDBController = dbController.usersDBController;
   }
 
   create(userData: CreateUserDto) {
     const newUser = {
       ...userData,
       id: uuid(),
-      version: 0,
+      version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };

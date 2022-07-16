@@ -14,7 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UsersService } from './users.service';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -44,7 +44,7 @@ export class UsersController {
     this.checkUserExists(userId);
 
     try {
-      this.usersService.changePassword(userId, updatePasswordDto);
+      return this.usersService.changePassword(userId, updatePasswordDto);
     } catch (e) {
       if (e.message === 'Old password is incorrect')
         throw new HttpException({}, HttpStatus.FORBIDDEN);
