@@ -3,7 +3,7 @@ version: '3.0'
 services:
   backend:
     build: 
-      context: .
+      context: ./
       dockerfile: Dockerfile
     restart: always
     ports:
@@ -11,7 +11,7 @@ services:
     networks:
       - proxy
     volumes:
-      - ./:/usr/app
+      - ./src:/usr/app/src
     env_file:
       - .env
     depends_on:
