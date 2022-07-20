@@ -70,3 +70,13 @@ npm run format
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+### Use Docker
+
+1. Install and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+2. Open a terminal in the root folder of the project and type the command:
+
+```
+docker-compose up -d
+```
