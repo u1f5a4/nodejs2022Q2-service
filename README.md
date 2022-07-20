@@ -80,3 +80,17 @@ For more information, visit: https://code.visualstudio.com/docs/editor/debugging
 ```
 docker-compose up -d
 ```
+
+#### DockerHub
+
+https://hub.docker.com/r/94aaad/nodejs2022q2-service_backend/tags
+
+
+#### How scan?
+
+To scan my image, you need to login to Docker and type command:
+
+```
+npm run scan
+```
+
