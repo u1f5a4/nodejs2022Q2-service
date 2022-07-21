@@ -1,4 +1,4 @@
-import { v4 as uuid, validate } from 'uuid';
+import { validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
 import { CreateTrackDto } from './dto/create-track.dto';
@@ -14,11 +14,7 @@ export class TracksService {
   ) {}
 
   create(createTrackDto: CreateTrackDto) {
-    const newTrack = {
-      id: uuid(),
-      ...createTrackDto,
-    };
-    return this.tracksDB.create(newTrack);
+    return this.tracksDB.create(createTrackDto);
   }
 
   getAll() {

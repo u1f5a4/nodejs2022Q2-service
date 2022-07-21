@@ -23,8 +23,8 @@ export class TracksController {
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  create(@Body() createTrackDto: CreateTrackDto) {
-    return this.tracksService.create(createTrackDto);
+  async create(@Body() createTrackDto: CreateTrackDto) {
+    return await this.tracksService.create(createTrackDto);
   }
 
   @Get()
@@ -33,27 +33,30 @@ export class TracksController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: string) {
+  async getById(@Param('id') id: string) {
     this.validateUUID(id);
-    this.checkTrackExists(id);
+    await this.checkTrackExists(id);
 
     return this.tracksService.getById(id);
   }
 
   @Put(':id')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateTrackDto: UpdateTrackDto,
+  ) {
     this.validateUUID(id);
-    this.checkTrackExists(id);
+    await this.checkTrackExists(id);
 
     return this.tracksService.update(id, updateTrackDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     this.validateUUID(id);
-    this.checkTrackExists(id);
+    await this.checkTrackExists(id);
 
     this.tracksService.delete(id);
   }
@@ -64,8 +67,8 @@ export class TracksController {
       throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
   }
 
-  private checkTrackExists(id: string) {
-    const track = this.tracksService.getById(id);
+  private async checkTrackExists(id: string) {
+    const track = await this.tracksService.getById(id);
     if (!track)
       throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
   }

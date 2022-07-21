@@ -1,57 +1,57 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { Track } from '../interfaces';
+import { CreateTrackDto } from '../tracks/dto/create-track.dto';
+import { TrackEntity } from '../tracks/entities/track.entity';
 
 @Injectable()
 export class TracksDB {
-  private tracks: Track[];
+  constructor(
+    @InjectRepository(TrackEntity)
+    private readonly trackRepository: Repository<TrackEntity>,
+  ) {}
 
-  constructor() {
-    this.tracks = [];
+  async create(trackData: CreateTrackDto) {
+    return await this.trackRepository.save(trackData);
   }
 
-  create(trackData: Track): Track {
-    this.tracks.push(trackData);
-    return trackData;
+  async getAll() {
+    return await this.trackRepository.find();
   }
 
-  getAll() {
-    return this.tracks;
+  async getById(id: string) {
+    const track = await this.trackRepository.findOne({ where: { id } });
+    if (!track) return undefined;
+    return track;
   }
 
-  getById(id: string) {
-    return this.tracks.find((track) => track.id === id);
+  async update(id: string, trackData: Partial<Track>) {
+    const track = await this.getById(id);
+    const newTrack = { ...track, ...trackData };
+
+    const { affected } = await this.trackRepository.update(id, newTrack);
+    if (affected === 1) return newTrack;
   }
 
-  update(id: string, trackData: Partial<Track>): Track {
-    const trackIndex = this.tracks.findIndex((track) => track.id === id);
-    if (trackIndex === -1) return;
-
-    const oldTrack = this.tracks[trackIndex];
-    const newTrack = { ...oldTrack, ...trackData };
-    this.tracks[trackIndex] = newTrack;
-    return this.tracks[trackIndex];
+  async delete(id: string) {
+    await this.trackRepository.delete({ id });
   }
 
-  delete(id: string): void {
-    const trackIndex = this.tracks.findIndex((track) => track.id === id);
-    if (trackIndex === -1) return;
-
-    this.tracks.splice(trackIndex, 1);
+  async nullArtist(artistId: string) {
+    const tracks = await this.trackRepository.find({ where: { artistId } });
+    for (const track of tracks) {
+      track.artistId = null;
+      await this.trackRepository.save(track);
+    }
   }
 
-  nullArtist(artistId: string) {
-    const trackIndex = this.tracks.findIndex((t) => t.artistId === artistId);
-    if (trackIndex === -1) return;
-
-    this.tracks[trackIndex].artistId = null;
-  }
-
-  nullAlbum(albumId: string) {
-    const trackIndex = this.tracks.findIndex((t) => t.albumId === albumId);
-    if (trackIndex === -1) return;
-
-    const { id } = this.tracks[trackIndex];
-    this.update(id, { albumId: null });
+  async nullAlbum(albumId: string) {
+    const tracks = await this.trackRepository.find({ where: { albumId } });
+    for (const track of tracks) {
+      track.albumId = null;
+      await this.trackRepository.save(track);
+    }
   }
 }
