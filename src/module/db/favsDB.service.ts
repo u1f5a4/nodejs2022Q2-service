@@ -1,14 +1,7 @@
-export interface IFavsDBController {
-  getAll(): any;
-  addTrack(id: string): void;
-  removeTrack(id: string): void;
-  addAlbum(id: string): void;
-  removeAlbum(id: string): void;
-  addArtist(id: string): void;
-  removeArtist(id: string): void;
-}
+import { Injectable } from '@nestjs/common';
 
-export class FavsDBController {
+@Injectable()
+export class FavsDB {
   private favs: any;
 
   constructor() {
@@ -17,14 +10,6 @@ export class FavsDBController {
       albumsIds: [],
       artistsIds: [],
     };
-
-    this.getAll = this.getAll.bind(this);
-    this.addTrack = this.addTrack.bind(this);
-    this.removeTrack = this.removeTrack.bind(this);
-    this.addAlbum = this.addAlbum.bind(this);
-    this.removeAlbum = this.removeAlbum.bind(this);
-    this.addArtist = this.addArtist.bind(this);
-    this.removeArtist = this.removeArtist.bind(this);
   }
 
   public getAll() {

@@ -9,7 +9,6 @@ import {
   HttpCode,
 } from '@nestjs/common';
 
-// import { validate } from 'uuid';
 import { AlbumsService } from '../albums/albums.service';
 import { ArtistsService } from '../artists/artists.service';
 import { TracksService } from '../tracks/tracks.service';
@@ -73,7 +72,6 @@ export class FavsController {
     if (type === 'Track') service = this.tracksService;
     if (type === 'Album') service = this.albumsService;
     if (type === 'Artist') service = this.artistsService;
-    // if (!service) return;
 
     if (!service.validateUUID(id))
       throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);

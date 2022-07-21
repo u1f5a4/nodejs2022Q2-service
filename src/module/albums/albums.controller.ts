@@ -41,6 +41,7 @@ export class AlbumsController {
   }
 
   @Put(':id')
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto) {
     this.isUUID(id);
     this.exists(id);

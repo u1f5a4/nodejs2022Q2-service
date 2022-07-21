@@ -1,21 +1,19 @@
 import { Injectable } from '@nestjs/common';
+
 import { AlbumsService } from '../albums/albums.service';
 import { ArtistsService } from '../artists/artists.service';
-import { dbController, IDBController } from '../db/db';
+import { FavsDB } from '../db/favsDB.service';
 import { Favorites } from '../interfaces';
 import { TracksService } from '../tracks/tracks.service';
 
 @Injectable()
 export class FavsService {
-  favsDBController: IDBController['favsDBController'];
-
   constructor(
     private readonly albumsService: AlbumsService,
     private readonly artistsService: ArtistsService,
     private readonly tracksService: TracksService,
+    private readonly favsDB: FavsDB,
   ) {
-    this.favsDBController = dbController.favsDBController;
-
     this.getAll = this.getAll.bind(this);
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -26,7 +24,7 @@ export class FavsService {
   }
 
   getAll(): Favorites {
-    const { tracksIds, artistsIds, albumsIds } = this.favsDBController.getAll();
+    const { tracksIds, artistsIds, albumsIds } = this.favsDB.getAll();
 
     const tracks = tracksIds
       .map((id: string) => this.tracksService.getById(id))
@@ -45,26 +43,26 @@ export class FavsService {
   }
 
   addTrack(id: string) {
-    this.favsDBController.addTrack(id);
+    this.favsDB.addTrack(id);
   }
 
   removeTrack(id: string) {
-    this.favsDBController.removeTrack(id);
+    this.favsDB.removeTrack(id);
   }
 
   addAlbum(id: string) {
-    this.favsDBController.addAlbum(id);
+    this.favsDB.addAlbum(id);
   }
 
   removeAlbum(id: string) {
-    this.favsDBController.removeAlbum(id);
+    this.favsDB.removeAlbum(id);
   }
 
   addArtist(id: string) {
-    this.favsDBController.addArtist(id);
+    this.favsDB.addArtist(id);
   }
 
   removeArtist(id: string) {
-    this.favsDBController.removeArtist(id);
+    this.favsDB.removeArtist(id);
   }
 }

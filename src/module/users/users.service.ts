@@ -1,16 +1,13 @@
 import { v4 as uuid, validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
-import { dbController, IDBController } from '../db/db';
+
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UsersDB } from '../db/usersDB.service';
 
 @Injectable()
 export class UsersService {
-  usersDBController: IDBController['usersDBController'];
-
-  constructor() {
-    this.usersDBController = dbController.usersDBController;
-  }
+  constructor(private readonly usersDB: UsersDB) {}
 
   create(userData: CreateUserDto) {
     const newUser = {
@@ -20,23 +17,24 @@ export class UsersService {
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
-    return this.usersDBController.create(newUser);
+
+    return this.usersDB.create(newUser);
   }
 
   getAll() {
-    return this.usersDBController.getAll();
+    return this.usersDB.getAll();
   }
 
   getById(userId: string) {
-    return this.usersDBController.getById(userId);
+    return this.usersDB.getById(userId);
   }
 
   changePassword(userId: string, updatePasswordDto: UpdatePasswordDto) {
-    return this.usersDBController.changePassword(userId, updatePasswordDto);
+    return this.usersDB.changePassword(userId, updatePasswordDto);
   }
 
   delete(userId: string) {
-    return this.usersDBController.delete(userId);
+    return this.usersDB.delete(userId);
   }
 
   validateUUID(userId: string) {

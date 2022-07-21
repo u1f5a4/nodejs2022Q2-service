@@ -1,37 +1,36 @@
 import { v4 as uuid, validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
-import { dbController, IDBController } from '../db/db';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { DeleteFieldService } from '../delete-field/delete-field.service';
+import { ArtistsDB } from '../db/artistsDB.service';
 
 @Injectable()
 export class ArtistsService {
-  artistsDBController: IDBController['artistsDBController'];
-
-  constructor(private readonly deleteFieldService: DeleteFieldService) {
-    this.artistsDBController = dbController.artistsDBController;
-  }
+  constructor(
+    private readonly deleteFieldService: DeleteFieldService,
+    private readonly artistsDB: ArtistsDB,
+  ) {}
 
   create(createArtistDto: CreateArtistDto) {
     const artist = {
       id: uuid(),
       ...createArtistDto,
     };
-    return this.artistsDBController.create(artist);
+    return this.artistsDB.create(artist);
   }
 
   getAll() {
-    return this.artistsDBController.getAll();
+    return this.artistsDB.getAll();
   }
 
   getById(id: string) {
-    return this.artistsDBController.getById(id);
+    return this.artistsDB.getById(id);
   }
 
   update(id: string, updateArtistDto: UpdateArtistDto) {
-    return this.artistsDBController.update(id, updateArtistDto);
+    return this.artistsDB.update(id, updateArtistDto);
   }
 
   delete(id: string) {

@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
 
-import { dbController, IDBController } from '../db/db';
+import { AlbumsDB } from '../db/albumsDB.service';
+import { ArtistsDB } from '../db/artistsDB.service';
+import { FavsDB } from '../db/favsDB.service';
+import { TracksDB } from '../db/tracksDB.service';
 
 @Injectable()
 export class DeleteFieldService {
-  dbController: IDBController;
-
-  constructor() {
-    this.dbController = dbController;
-
+  constructor(
+    private readonly albumsDB: AlbumsDB,
+    private readonly favsDB: FavsDB,
+    private readonly tracksDB: TracksDB,
+    private readonly artistsDB: ArtistsDB,
+  ) {
     this.deleteField = this.deleteField.bind(this);
   }
 
   deleteField(field: string, id: string) {
-    const {
-      albumsDBController,
-      favsDBController,
-      tracksDBController,
-      artistsDBController,
-    } = this.dbController;
+    const albumsDBController = this.albumsDB;
+    const favsDBController = this.favsDB;
+    const tracksDBController = this.tracksDB;
+    const artistsDBController = this.artistsDB;
 
-    console.log(`Deleting ${field} with id ${id}`);
     switch (field) {
       case 'track':
         tracksDBController.delete(id);

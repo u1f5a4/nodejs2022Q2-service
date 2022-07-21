@@ -9,6 +9,7 @@ import { ArtistsModule } from './module/artists/artists.module';
 import { AlbumsModule } from './module/albums/albums.module';
 import { FavsModule } from './module/favs/favs.module';
 import { DeleteFieldModule } from './module/delete-field/delete-field.module';
+import { DBModule } from './module/db/db.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DeleteFieldModule } from './module/delete-field/delete-field.module';
     AlbumsModule,
     FavsModule,
     DeleteFieldModule,
+    DBModule,
   ],
   controllers: [AppController],
   providers: [AppService],

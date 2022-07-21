@@ -3,39 +3,38 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { dbController, IDBController } from '../db/db';
 import { DeleteFieldService } from '../delete-field/delete-field.service';
+import { AlbumsDB } from '../db/albumsDB.service';
 
 @Injectable()
 export class AlbumsService {
-  albumsDBController: IDBController['albumsDBController'];
-
-  constructor(private readonly deleteFieldService: DeleteFieldService) {
-    this.albumsDBController = dbController.albumsDBController;
-  }
+  constructor(
+    private readonly deleteFieldService: DeleteFieldService,
+    private readonly albumsDB: AlbumsDB,
+  ) {}
 
   create(createAlbumDto: CreateAlbumDto) {
     const newAlbum = {
       id: uuid(),
       ...createAlbumDto,
     };
-    return this.albumsDBController.create(newAlbum);
+    return this.albumsDB.create(newAlbum);
   }
 
   findAll() {
-    return this.albumsDBController.getAll();
+    return this.albumsDB.getAll();
   }
 
   getById(id: string) {
-    return this.albumsDBController.getById(id);
+    return this.albumsDB.getById(id);
   }
 
   update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    return this.albumsDBController.update(id, updateAlbumDto);
+    return this.albumsDB.update(id, updateAlbumDto);
   }
 
   remove(id: string) {
-    this.albumsDBController.delete(id);
+    this.albumsDB.delete(id);
     this.deleteFieldService.deleteField('album', id);
   }
 

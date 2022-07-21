@@ -1,28 +1,13 @@
+import { Injectable } from '@nestjs/common';
+
 import { Track } from '../interfaces';
 
-export interface ITracksDBController {
-  create: (track: Track) => Track;
-  getAll: () => Track[] | undefined;
-  getById: (id: string) => Track;
-  update: (id: string, track: Partial<Track>) => Track;
-  delete: (id: string) => void;
-  nullAlbum: (id: string) => void;
-  nullArtist: (id: string) => void;
-}
-
-export class TracksDBController implements ITracksDBController {
+@Injectable()
+export class TracksDB {
   private tracks: Track[];
 
   constructor() {
     this.tracks = [];
-
-    this.create = this.create.bind(this);
-    this.getAll = this.getAll.bind(this);
-    this.getById = this.getById.bind(this);
-    this.update = this.update.bind(this);
-    this.delete = this.delete.bind(this);
-    this.nullAlbum = this.nullAlbum.bind(this);
-    this.nullArtist = this.nullArtist.bind(this);
   }
 
   create(trackData: Track): Track {

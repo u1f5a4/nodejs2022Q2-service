@@ -1,24 +1,13 @@
+import { Injectable } from '@nestjs/common';
+
 import { Artist } from '../interfaces';
 
-export interface IArtistsDBController {
-  create: (artist: Artist) => Artist;
-  getAll: () => Artist[] | undefined;
-  getById: (id: string) => Artist;
-  update: (id: string, artist: Partial<Artist>) => Artist;
-  delete: (id: string) => void;
-}
-
-export class ArtistsDBController implements IArtistsDBController {
+@Injectable()
+export class ArtistsDB {
   artists: Artist[];
 
   constructor() {
     this.artists = [];
-
-    this.create = this.create.bind(this);
-    this.getAll = this.getAll.bind(this);
-    this.getById = this.getById.bind(this);
-    this.update = this.update.bind(this);
-    this.delete = this.delete.bind(this);
   }
 
   getAll() {
