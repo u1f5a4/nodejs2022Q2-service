@@ -1,60 +1,54 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { User } from '../interfaces';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UpdatePasswordDto } from '../users/dto/update-password.dto';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Injectable()
 export class UsersDB {
   private users: User[];
 
-  constructor() {
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {
     this.users = [];
   }
 
-  create(user: User) {
-    this.users.push(user);
-    return this.getById(user.id);
+  async create(user: CreateUserDto) {
+    const newUser = this.userRepository.create(user);
+    return (await this.userRepository.save(newUser)).toResponse();
   }
 
-  getAll(): User[] {
-    return this.users.map((user) => {
-      return this.removePasswordField(user);
-    });
+  async getAll() {
+    const users = await this.userRepository.find();
+    return users.map((user) => user.toResponse());
   }
 
-  getById(id: string): User | undefined {
-    const user = this.users.find((user) => user.id === id);
+  async getById(userId: string) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) return undefined;
-    return this.removePasswordField(user);
+    return user.toResponse();
   }
 
-  changePassword(id: string, updatePasswordDto: UpdatePasswordDto): User {
+  async changePassword(userId: string, updatePasswordDto: UpdatePasswordDto) {
     const { oldPassword, newPassword } = updatePasswordDto;
 
-    const userIndex = this.users.findIndex((user) => user.id === id);
-    const user = this.users[userIndex];
+    const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (user.password !== oldPassword)
       throw new Error('Old password is incorrect');
 
-    user.version += 1;
-    user.updatedAt = Date.now();
     user.password = newPassword;
 
-    return this.removePasswordField(user);
+    return (await this.userRepository.save(user)).toResponse();
   }
 
-  delete(id: string): boolean {
-    const userIndex = this.users.findIndex((user) => user.id === id);
-    if (userIndex === -1) return false;
-    this.users.splice(userIndex, 1);
-    return true;
-  }
-
-  removePasswordField(user: User): User {
-    const copyUser = { ...user };
-    delete copyUser.password;
-
-    return copyUser;
+  async delete(userId: string) {
+    const { affected } = await this.userRepository.delete({ id: userId });
+    return affected === 1;
   }
 }

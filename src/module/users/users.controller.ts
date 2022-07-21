@@ -33,23 +33,24 @@ export class UsersController {
   }
 
   @Get('/:userId')
-  getById(@Param('userId') userId: string) {
+  async getById(@Param('userId') userId: string) {
     this.validateUUID(userId);
-    this.checkUserExists(userId);
+    await this.checkUserExists(userId);
+
     return this.usersService.getById(userId);
   }
 
   @Put('/:userId')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  update(
+  async update(
     @Param('userId') userId: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
     this.validateUUID(userId);
-    this.checkUserExists(userId);
+    await this.checkUserExists(userId);
 
     try {
-      return this.usersService.changePassword(userId, updatePasswordDto);
+      return await this.usersService.changePassword(userId, updatePasswordDto);
     } catch (e) {
       if (e.message === 'Old password is incorrect')
         throw new HttpException({}, HttpStatus.FORBIDDEN);
@@ -58,9 +59,9 @@ export class UsersController {
 
   @Delete('/:userId')
   @HttpCode(204)
-  delete(@Param('userId') userId: string) {
+  async delete(@Param('userId') userId: string) {
     this.validateUUID(userId);
-    this.checkUserExists(userId);
+    await this.checkUserExists(userId);
 
     this.usersService.delete(userId);
   }
@@ -71,8 +72,8 @@ export class UsersController {
       throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
   }
 
-  private checkUserExists(userId: string) {
-    const user = this.usersService.getById(userId);
+  private async checkUserExists(userId: string) {
+    const user = await this.usersService.getById(userId);
     if (!user) throw new HttpException('User not exists', HttpStatus.NOT_FOUND);
   }
 }

@@ -10,15 +10,7 @@ export class UsersService {
   constructor(private readonly usersDB: UsersDB) {}
 
   create(userData: CreateUserDto) {
-    const newUser = {
-      ...userData,
-      id: uuid(),
-      version: 1,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    };
-
-    return this.usersDB.create(newUser);
+    return this.usersDB.create(userData);
   }
 
   getAll() {

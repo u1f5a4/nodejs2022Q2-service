@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from '../users/entities/user.entity';
 
 import { AlbumsDB } from './albumsDB.service';
 import { ArtistsDB } from './artistsDB.service';
@@ -7,7 +9,7 @@ import { TracksDB } from './tracksDB.service';
 import { UsersDB } from './usersDB.service';
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [],
   providers: [UsersDB, TracksDB, AlbumsDB, ArtistsDB, FavsDB],
   exports: [UsersDB, TracksDB, AlbumsDB, ArtistsDB, FavsDB],
