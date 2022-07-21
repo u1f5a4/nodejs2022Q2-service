@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,6 +11,7 @@ import { AlbumsModule } from './module/albums/albums.module';
 import { FavsModule } from './module/favs/favs.module';
 import { DeleteFieldModule } from './module/delete-field/delete-field.module';
 import { DBModule } from './module/db/db.module';
+import typeormConfig from './typeorm.config';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { DBModule } from './module/db/db.module';
     FavsModule,
     DeleteFieldModule,
     DBModule,
+    TypeOrmModule.forRoot(typeormConfig),
   ],
   controllers: [AppController],
   providers: [AppService],
