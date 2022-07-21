@@ -2,21 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from '../interfaces';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UpdatePasswordDto } from '../users/dto/update-password.dto';
 import { UserEntity } from '../users/entities/user.entity';
 
 @Injectable()
 export class UsersDB {
-  private users: User[];
-
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) {
-    this.users = [];
-  }
+  ) {}
 
   async create(user: CreateUserDto) {
     const newUser = this.userRepository.create(user);

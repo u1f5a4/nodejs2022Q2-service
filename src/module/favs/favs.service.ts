@@ -38,7 +38,6 @@ export class FavsService {
       .map((id: string) => this.albumsService.getById(id))
       .filter((album: any) => !!album);
 
-    console.log(albums);
     return { tracks, artists, albums };
   }
 

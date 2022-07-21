@@ -1,4 +1,4 @@
-import { v4 as uuid, validate } from 'uuid';
+import { validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
 import { UpdatePasswordDto } from './dto/update-password.dto';
