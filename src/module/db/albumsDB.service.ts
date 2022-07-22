@@ -1,45 +1,50 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AlbumEntity } from '../albums/entities/album.entity';
 
 import { Album } from '../interfaces';
 
 @Injectable()
 export class AlbumsDB {
-  albums: Album[];
+  constructor(
+    @InjectRepository(AlbumEntity)
+    private readonly albumRepository: Repository<AlbumEntity>,
+  ) {}
 
-  constructor() {
-    this.albums = [];
+  async create(album) {
+    return await this.albumRepository.save(album);
   }
 
-  create(album: Album): Album {
-    this.albums.push(album);
-    return album;
-  }
-
-  getAll() {
-    return this.albums;
+  async getAll() {
+    return await this.albumRepository.find();
   }
 
   getById(id: string) {
-    return this.albums.find((album) => album.id === id);
+    const album = this.albumRepository.findOne({ where: { id } });
+    if (!album) return undefined;
+    return album;
   }
 
-  update(id: string, album: Partial<Album>) {
-    const albumIndex = this.albums.findIndex((album) => album.id === id);
-    const oldAlbum = this.albums[albumIndex];
+  async update(id: string, album: Partial<Album>) {
+    const oldAlbum = await this.getById(id);
     const newAlbum = { ...oldAlbum, ...album };
-    this.albums[albumIndex] = newAlbum;
-    return this.albums[albumIndex];
+
+    const { affected } = await this.albumRepository.update(id, newAlbum);
+    if (affected === 1) return newAlbum;
   }
 
-  delete(id: string) {
-    const albumIndex = this.albums.findIndex((album) => album.id === id);
-    this.albums.splice(albumIndex, 1);
+  async delete(id: string) {
+    const { affected } = await this.albumRepository.delete({ id });
+    if (affected === 1) return true;
+    return false;
   }
 
-  nullArtist(artistId: string) {
-    const albumIndex = this.albums.findIndex((a) => a.artistId === artistId);
-    if (albumIndex === -1) return;
-
-    this.albums[albumIndex].artistId = null;
+  async nullArtist(artistId: string) {
+    const albums = await this.albumRepository.find({ where: { artistId } });
+    for (const album of albums) {
+      album.artistId = null;
+      this.albumRepository.save(album);
+    }
   }
 }

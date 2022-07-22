@@ -23,37 +23,40 @@ export class AlbumsController {
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  create(@Body() createAlbumDto: CreateAlbumDto) {
+  async create(@Body() createAlbumDto: CreateAlbumDto) {
     return this.albumsService.create(createAlbumDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.albumsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     this.isUUID(id);
-    this.exists(id);
+    await this.exists(id);
 
     return this.albumsService.getById(id);
   }
 
   @Put(':id')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto,
+  ) {
     this.isUUID(id);
-    this.exists(id);
+    await this.exists(id);
 
     return this.albumsService.update(id, updateAlbumDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     this.isUUID(id);
-    this.exists(id);
+    await this.exists(id);
 
     return this.albumsService.remove(id);
   }
@@ -65,8 +68,8 @@ export class AlbumsController {
     }
   }
 
-  private exists(id: string) {
-    const exists = this.albumsService.getById(id);
+  private async exists(id: string) {
+    const exists = await this.albumsService.getById(id);
     if (!exists) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }

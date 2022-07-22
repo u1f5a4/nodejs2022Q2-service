@@ -8,9 +8,10 @@ import { ArtistsDB } from './artistsDB.service';
 import { FavsDB } from './favsDB.service';
 import { TracksDB } from './tracksDB.service';
 import { UsersDB } from './usersDB.service';
+import { AlbumEntity } from '../albums/entities/album.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, TrackEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity, TrackEntity, AlbumEntity])],
   controllers: [],
   providers: [UsersDB, TracksDB, AlbumsDB, ArtistsDB, FavsDB],
   exports: [UsersDB, TracksDB, AlbumsDB, ArtistsDB, FavsDB],

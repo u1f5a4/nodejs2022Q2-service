@@ -1,4 +1,4 @@
-import { v4 as uuid, validate } from 'uuid';
+import { validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -14,11 +14,7 @@ export class AlbumsService {
   ) {}
 
   create(createAlbumDto: CreateAlbumDto) {
-    const newAlbum = {
-      id: uuid(),
-      ...createAlbumDto,
-    };
-    return this.albumsDB.create(newAlbum);
+    return this.albumsDB.create(createAlbumDto);
   }
 
   findAll() {
@@ -35,7 +31,7 @@ export class AlbumsService {
 
   remove(id: string) {
     this.albumsDB.delete(id);
-    this.deleteFieldService.deleteField('album', id);
+    // this.deleteFieldService.deleteField('album', id);
   }
 
   validateUUID(id: string) {
