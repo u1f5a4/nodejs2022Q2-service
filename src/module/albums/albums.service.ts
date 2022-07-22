@@ -21,8 +21,8 @@ export class AlbumsService {
     return this.albumsDB.getAll();
   }
 
-  getById(id: string) {
-    return this.albumsDB.getById(id);
+  async getById(id: string) {
+    return await this.albumsDB.getById(id);
   }
 
   update(id: string, updateAlbumDto: UpdateAlbumDto) {
@@ -30,8 +30,7 @@ export class AlbumsService {
   }
 
   remove(id: string) {
-    this.albumsDB.delete(id);
-    // this.deleteFieldService.deleteField('album', id);
+    this.deleteFieldService.deleteField('album', id);
   }
 
   validateUUID(id: string) {

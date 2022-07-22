@@ -24,50 +24,50 @@ export class FavsController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.favsService.getAll();
+  async findAll() {
+    return await this.favsService.getAll();
   }
 
   @Post('/track/:id')
-  addTrack(@Param('id') id: string) {
-    this.validate('Track', id);
+  async addTrack(@Param('id') id: string) {
+    await this.validate('Track', id);
     this.favsService.addTrack(id);
   }
 
   @Delete('/track/:id')
   @HttpCode(204)
-  removeTrack(@Param('id') id: string) {
-    this.validate('Track', id);
+  async removeTrack(@Param('id') id: string) {
+    await this.validate('Track', id);
     this.favsService.removeTrack(id);
   }
 
   @Post('/album/:id')
-  addAlbum(@Param('id') id: string) {
-    this.validate('Album', id);
+  async addAlbum(@Param('id') id: string) {
+    await this.validate('Album', id);
     this.favsService.addAlbum(id);
   }
 
   @Delete('/album/:id')
   @HttpCode(204)
-  removeAlbum(@Param('id') id: string) {
-    this.validate('Album', id);
+  async removeAlbum(@Param('id') id: string) {
+    await this.validate('Album', id);
     this.favsService.removeAlbum(id);
   }
 
   @Post('/artist/:id')
-  addArtist(@Param('id') id: string) {
-    this.validate('Artist', id);
+  async addArtist(@Param('id') id: string) {
+    await this.validate('Artist', id);
     this.favsService.addArtist(id);
   }
 
   @Delete('/artist/:id')
   @HttpCode(204)
-  removeArtist(@Param('id') id: string) {
-    this.validate('Artist', id);
+  async removeArtist(@Param('id') id: string) {
+    await this.validate('Artist', id);
     this.favsService.removeArtist(id);
   }
 
-  private validate(type: string, id: string) {
+  private async validate(type: string, id: string) {
     let service: TracksService | AlbumsService | ArtistsService;
     if (type === 'Track') service = this.tracksService;
     if (type === 'Album') service = this.albumsService;
@@ -76,7 +76,7 @@ export class FavsController {
     if (!service.validateUUID(id))
       throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
 
-    if (!service.getById(id))
+    if (!(await service.getById(id)))
       throw new HttpException(
         `${type} not found`,
         HttpStatus.UNPROCESSABLE_ENTITY,

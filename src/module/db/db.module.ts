@@ -10,6 +10,7 @@ import { TracksDB } from './tracksDB.service';
 import { UsersDB } from './usersDB.service';
 import { AlbumEntity } from '../albums/entities/album.entity';
 import { ArtistEntity } from '../artists/entities/artist.entity';
+import { FavsEntity } from '../favs/entities/favs.entity';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ArtistEntity } from '../artists/entities/artist.entity';
       TrackEntity,
       AlbumEntity,
       ArtistEntity,
+      FavsEntity,
     ]),
   ],
   controllers: [],

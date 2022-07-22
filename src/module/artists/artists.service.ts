@@ -22,7 +22,7 @@ export class ArtistsService {
   }
 
   async getById(id: string) {
-    return this.artistsDB.getById(id);
+    return await this.artistsDB.getById(id);
   }
 
   update(id: string, updateArtistDto: UpdateArtistDto) {

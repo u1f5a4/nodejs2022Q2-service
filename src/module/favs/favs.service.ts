@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { AlbumsService } from '../albums/albums.service';
 import { ArtistsService } from '../artists/artists.service';
 import { FavsDB } from '../db/favsDB.service';
-import { Favorites } from '../interfaces';
+// import { Favorites } from '../interfaces';
 import { TracksService } from '../tracks/tracks.service';
 
 @Injectable()
@@ -14,17 +14,22 @@ export class FavsService {
     private readonly tracksService: TracksService,
     private readonly favsDB: FavsDB,
   ) {
-    this.getAll = this.getAll.bind(this);
-    this.addTrack = this.addTrack.bind(this);
-    this.removeTrack = this.removeTrack.bind(this);
-    this.addAlbum = this.addAlbum.bind(this);
-    this.removeAlbum = this.removeAlbum.bind(this);
-    this.addArtist = this.addArtist.bind(this);
-    this.removeArtist = this.removeArtist.bind(this);
+    // this.getAll = this.getAll.bind(this);
+    // this.addTrack = this.addTrack.bind(this);
+    // this.removeTrack = this.removeTrack.bind(this);
+    // this.addAlbum = this.addAlbum.bind(this);
+    // this.removeAlbum = this.removeAlbum.bind(this);
+    // this.addArtist = this.addArtist.bind(this);
+    // this.removeArtist = this.removeArtist.bind(this);
   }
 
-  getAll(): Favorites {
-    const { tracksIds, artistsIds, albumsIds } = this.favsDB.getAll();
+  async getAll() {
+    // !Hardcode userId
+    const userId = '1';
+
+    const { tracksIds, artistsIds, albumsIds } = await this.favsDB.getAll(
+      userId,
+    );
 
     const tracks = tracksIds
       .map((id: string) => this.tracksService.getById(id))
@@ -38,7 +43,11 @@ export class FavsService {
       .map((id: string) => this.albumsService.getById(id))
       .filter((album: any) => !!album);
 
-    return { tracks, artists, albums };
+    return {
+      tracks: await Promise.all(tracks),
+      artists: await Promise.all(artists),
+      albums: await Promise.all(albums),
+    };
   }
 
   addTrack(id: string) {

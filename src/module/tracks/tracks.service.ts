@@ -21,8 +21,8 @@ export class TracksService {
     return this.tracksDB.getAll();
   }
 
-  getById(id: string) {
-    return this.tracksDB.getById(id);
+  async getById(id: string) {
+    return await this.tracksDB.getById(id);
   }
 
   update(id: string, updateTrackDto: UpdateTrackDto) {

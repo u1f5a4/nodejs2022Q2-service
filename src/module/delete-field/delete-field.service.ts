@@ -13,32 +13,27 @@ export class DeleteFieldService {
     private readonly tracksDB: TracksDB,
     private readonly artistsDB: ArtistsDB,
   ) {
-    this.deleteField = this.deleteField.bind(this);
+    // this.deleteField = this.deleteField.bind(this);
   }
 
-  deleteField(field: string, id: string) {
-    const albumsDBController = this.albumsDB;
-    const favsDBController = this.favsDB;
-    const tracksDBController = this.tracksDB;
-    const artistsDBController = this.artistsDB;
-
+  async deleteField(field: string, id: string) {
     switch (field) {
       case 'track':
-        tracksDBController.delete(id);
-        favsDBController.removeTrack(id);
+        this.tracksDB.delete(id);
+        this.favsDB.removeTrack(id);
         break;
 
       case 'album':
-        albumsDBController.delete(id);
-        tracksDBController.nullAlbum(id);
-        favsDBController.removeAlbum(id);
+        this.albumsDB.delete(id);
+        this.tracksDB.nullAlbum(id);
+        this.favsDB.removeAlbum(id);
         break;
 
       case 'artist':
-        artistsDBController.delete(id);
-        tracksDBController.nullArtist(id);
-        albumsDBController.nullArtist(id);
-        favsDBController.removeArtist(id);
+        this.artistsDB.delete(id);
+        this.tracksDB.nullArtist(id);
+        this.albumsDB.nullArtist(id);
+        this.favsDB.removeArtist(id);
         break;
 
       default:
