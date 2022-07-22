@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { AlbumsService } from '../albums/albums.service';
 import { ArtistsService } from '../artists/artists.service';
 import { FavsDB } from '../db/favsDB.service';
-// import { Favorites } from '../interfaces';
 import { TracksService } from '../tracks/tracks.service';
 
 @Injectable()
@@ -13,15 +12,7 @@ export class FavsService {
     private readonly artistsService: ArtistsService,
     private readonly tracksService: TracksService,
     private readonly favsDB: FavsDB,
-  ) {
-    // this.getAll = this.getAll.bind(this);
-    // this.addTrack = this.addTrack.bind(this);
-    // this.removeTrack = this.removeTrack.bind(this);
-    // this.addAlbum = this.addAlbum.bind(this);
-    // this.removeAlbum = this.removeAlbum.bind(this);
-    // this.addArtist = this.addArtist.bind(this);
-    // this.removeArtist = this.removeArtist.bind(this);
-  }
+  ) {}
 
   async getAll() {
     // !Hardcode userId
@@ -50,27 +41,27 @@ export class FavsService {
     };
   }
 
-  addTrack(id: string) {
-    this.favsDB.addTrack(id);
+  async addTrack(id: string) {
+    await this.favsDB.addTrack(id);
   }
 
-  removeTrack(id: string) {
-    this.favsDB.removeTrack(id);
+  async removeTrack(id: string) {
+    await this.favsDB.removeTrack(id);
   }
 
-  addAlbum(id: string) {
-    this.favsDB.addAlbum(id);
+  async addAlbum(id: string) {
+    await this.favsDB.addAlbum(id);
   }
 
-  removeAlbum(id: string) {
-    this.favsDB.removeAlbum(id);
+  async removeAlbum(id: string) {
+    await this.favsDB.removeAlbum(id);
   }
 
-  addArtist(id: string) {
-    this.favsDB.addArtist(id);
+  async addArtist(id: string) {
+    await this.favsDB.addArtist(id);
   }
 
-  removeArtist(id: string) {
-    this.favsDB.removeArtist(id);
+  async removeArtist(id: string) {
+    await this.favsDB.removeArtist(id);
   }
 }

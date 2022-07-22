@@ -31,7 +31,7 @@ export class FavsController {
   @Post('/track/:id')
   async addTrack(@Param('id') id: string) {
     await this.validate('Track', id);
-    this.favsService.addTrack(id);
+    await this.favsService.addTrack(id);
   }
 
   @Delete('/track/:id')

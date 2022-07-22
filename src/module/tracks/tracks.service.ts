@@ -13,24 +13,24 @@ export class TracksService {
     private readonly tracksDB: TracksDB,
   ) {}
 
-  create(createTrackDto: CreateTrackDto) {
-    return this.tracksDB.create(createTrackDto);
+  async create(createTrackDto: CreateTrackDto) {
+    return await this.tracksDB.create(createTrackDto);
   }
 
-  getAll() {
-    return this.tracksDB.getAll();
+  async getAll() {
+    return await this.tracksDB.getAll();
   }
 
   async getById(id: string) {
     return await this.tracksDB.getById(id);
   }
 
-  update(id: string, updateTrackDto: UpdateTrackDto) {
-    return this.tracksDB.update(id, updateTrackDto);
+  async update(id: string, updateTrackDto: UpdateTrackDto) {
+    return await this.tracksDB.update(id, updateTrackDto);
   }
 
-  delete(id: string) {
-    this.deleteFieldService.deleteField('track', id);
+  async delete(id: string) {
+    await this.deleteFieldService.deleteField('track', id);
   }
 
   validateUUID(id: string) {

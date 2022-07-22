@@ -13,24 +13,24 @@ export class ArtistsService {
     private readonly artistsDB: ArtistsDB,
   ) {}
 
-  create(createArtistDto: CreateArtistDto) {
-    return this.artistsDB.create(createArtistDto);
+  async create(createArtistDto: CreateArtistDto) {
+    return await this.artistsDB.create(createArtistDto);
   }
 
-  getAll() {
-    return this.artistsDB.getAll();
+  async getAll() {
+    return await this.artistsDB.getAll();
   }
 
   async getById(id: string) {
     return await this.artistsDB.getById(id);
   }
 
-  update(id: string, updateArtistDto: UpdateArtistDto) {
-    return this.artistsDB.update(id, updateArtistDto);
+  async update(id: string, updateArtistDto: UpdateArtistDto) {
+    return await this.artistsDB.update(id, updateArtistDto);
   }
 
-  delete(id: string) {
-    this.deleteFieldService.deleteField('artist', id);
+  async delete(id: string) {
+    await this.deleteFieldService.deleteField('artist', id);
   }
 
   validateUUID(id: string) {

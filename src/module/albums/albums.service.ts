@@ -13,24 +13,24 @@ export class AlbumsService {
     private readonly albumsDB: AlbumsDB,
   ) {}
 
-  create(createAlbumDto: CreateAlbumDto) {
-    return this.albumsDB.create(createAlbumDto);
+  async create(createAlbumDto: CreateAlbumDto) {
+    return await this.albumsDB.create(createAlbumDto);
   }
 
-  findAll() {
-    return this.albumsDB.getAll();
+  async findAll() {
+    return await this.albumsDB.getAll();
   }
 
   async getById(id: string) {
     return await this.albumsDB.getById(id);
   }
 
-  update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    return this.albumsDB.update(id, updateAlbumDto);
+  async update(id: string, updateAlbumDto: UpdateAlbumDto) {
+    return await this.albumsDB.update(id, updateAlbumDto);
   }
 
-  remove(id: string) {
-    this.deleteFieldService.deleteField('album', id);
+  async remove(id: string) {
+    await this.deleteFieldService.deleteField('album', id);
   }
 
   validateUUID(id: string) {

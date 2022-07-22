@@ -24,12 +24,12 @@ export class AlbumsController {
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async create(@Body() createAlbumDto: CreateAlbumDto) {
-    return this.albumsService.create(createAlbumDto);
+    return await this.albumsService.create(createAlbumDto);
   }
 
   @Get()
   async findAll() {
-    return this.albumsService.findAll();
+    return await this.albumsService.findAll();
   }
 
   @Get(':id')
@@ -37,7 +37,7 @@ export class AlbumsController {
     this.isUUID(id);
     await this.exists(id);
 
-    return this.albumsService.getById(id);
+    return await this.albumsService.getById(id);
   }
 
   @Put(':id')
@@ -49,7 +49,7 @@ export class AlbumsController {
     this.isUUID(id);
     await this.exists(id);
 
-    return this.albumsService.update(id, updateAlbumDto);
+    return await this.albumsService.update(id, updateAlbumDto);
   }
 
   @Delete(':id')
@@ -58,7 +58,7 @@ export class AlbumsController {
     this.isUUID(id);
     await this.exists(id);
 
-    return this.albumsService.remove(id);
+    return await this.albumsService.remove(id);
   }
 
   private isUUID(id: string) {

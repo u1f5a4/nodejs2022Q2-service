@@ -23,13 +23,13 @@ export class UsersController {
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
   }
 
   @Get()
-  getAll() {
-    return this.usersService.getAll();
+  async getAll() {
+    return await this.usersService.getAll();
   }
 
   @Get('/:userId')
@@ -37,7 +37,7 @@ export class UsersController {
     this.validateUUID(userId);
     await this.checkUserExists(userId);
 
-    return this.usersService.getById(userId);
+    return await this.usersService.getById(userId);
   }
 
   @Put('/:userId')
@@ -63,8 +63,9 @@ export class UsersController {
     this.validateUUID(userId);
     await this.checkUserExists(userId);
 
-    this.usersService.delete(userId);
+    await this.usersService.delete(userId);
   }
+  i;
 
   private validateUUID(userId: string) {
     const isUUID = this.usersService.validateUUID(userId);

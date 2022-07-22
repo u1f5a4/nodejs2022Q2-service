@@ -28,8 +28,8 @@ export class TracksController {
   }
 
   @Get()
-  getAll() {
-    return this.tracksService.getAll();
+  async getAll() {
+    return await this.tracksService.getAll();
   }
 
   @Get(':id')
@@ -37,7 +37,7 @@ export class TracksController {
     this.validateUUID(id);
     await this.checkTrackExists(id);
 
-    return this.tracksService.getById(id);
+    return await this.tracksService.getById(id);
   }
 
   @Put(':id')
@@ -49,7 +49,7 @@ export class TracksController {
     this.validateUUID(id);
     await this.checkTrackExists(id);
 
-    return this.tracksService.update(id, updateTrackDto);
+    return await this.tracksService.update(id, updateTrackDto);
   }
 
   @Delete(':id')
@@ -58,7 +58,7 @@ export class TracksController {
     this.validateUUID(id);
     await this.checkTrackExists(id);
 
-    this.tracksService.delete(id);
+    await this.tracksService.delete(id);
   }
 
   private validateUUID(id: string) {

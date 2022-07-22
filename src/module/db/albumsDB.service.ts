@@ -44,7 +44,7 @@ export class AlbumsDB {
     const albums = await this.albumRepository.find({ where: { artistId } });
     for (const album of albums) {
       album.artistId = null;
-      this.albumRepository.save(album);
+      await this.albumRepository.save(album);
     }
   }
 }

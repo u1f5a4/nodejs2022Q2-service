@@ -24,12 +24,12 @@ export class ArtistsController {
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async create(@Body() createArtistDto: CreateArtistDto) {
-    return this.artistsService.create(createArtistDto);
+    return await this.artistsService.create(createArtistDto);
   }
 
   @Get()
   async getAll() {
-    return this.artistsService.getAll();
+    return await this.artistsService.getAll();
   }
 
   @Get(':id')
@@ -37,7 +37,7 @@ export class ArtistsController {
     this.validateUUID(id);
     await this.exists(id);
 
-    return this.artistsService.getById(id);
+    return await this.artistsService.getById(id);
   }
 
   @Put(':id')
@@ -49,7 +49,7 @@ export class ArtistsController {
     this.validateUUID(id);
     await this.exists(id);
 
-    return this.artistsService.update(id, updateArtistDto);
+    return await this.artistsService.update(id, updateArtistDto);
   }
 
   @Delete(':id')
@@ -58,7 +58,7 @@ export class ArtistsController {
     this.validateUUID(id);
     await this.exists(id);
 
-    this.artistsService.delete(id);
+    await this.artistsService.delete(id);
   }
 
   private async exists(id: string) {

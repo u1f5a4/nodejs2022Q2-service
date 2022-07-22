@@ -19,20 +19,20 @@ export class UsersService {
     return user;
   }
 
-  getAll() {
-    return this.usersDB.getAll();
+  async getAll() {
+    return await this.usersDB.getAll();
   }
 
-  getById(userId: string) {
-    return this.usersDB.getById(userId);
+  async getById(userId: string) {
+    return await this.usersDB.getById(userId);
   }
 
-  changePassword(userId: string, updatePasswordDto: UpdatePasswordDto) {
-    return this.usersDB.changePassword(userId, updatePasswordDto);
+  async changePassword(userId: string, updatePasswordDto: UpdatePasswordDto) {
+    return await this.usersDB.changePassword(userId, updatePasswordDto);
   }
 
-  delete(userId: string) {
-    return this.usersDB.delete(userId);
+  async delete(userId: string) {
+    return await this.usersDB.delete(userId);
   }
 
   validateUUID(userId: string) {
