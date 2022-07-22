@@ -1,38 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ArtistEntity } from '../artists/entities/artist.entity';
 
 import { Artist } from '../interfaces';
 
 @Injectable()
 export class ArtistsDB {
-  artists: Artist[];
+  constructor(
+    @InjectRepository(ArtistEntity)
+    private readonly artistRepository: Repository<ArtistEntity>,
+  ) {}
 
-  constructor() {
-    this.artists = [];
+  async create(artist) {
+    return await this.artistRepository.save(artist);
   }
 
-  getAll() {
-    return this.artists;
+  async getAll() {
+    return await this.artistRepository.find();
   }
 
-  getById(id: string) {
-    return this.artists.find((artist) => artist.id === id);
-  }
-
-  create(artist: Artist) {
-    this.artists.push(artist);
+  async getById(id: string) {
+    const artist = await this.artistRepository.findOne({ where: { id } });
+    if (!artist) return undefined;
     return artist;
   }
 
-  update(id: string, artist: Partial<Artist>) {
-    const artistIndex = this.artists.findIndex((artist) => artist.id === id);
-    const oldArtist = this.artists[artistIndex];
-    const newArtist = { ...oldArtist, ...artist };
-    this.artists[artistIndex] = newArtist;
-    return this.artists[artistIndex];
+  async update(id: string, artist: Partial<Artist>) {
+    const oldArtist = this.getById(id);
+    const newArtist = { id, ...oldArtist, ...artist };
+
+    const { affected } = await this.artistRepository.update(id, newArtist);
+    if (affected) return newArtist;
+    throw new Error('Artist not found');
   }
 
-  delete(id: string) {
-    const artistIndex = this.artists.findIndex((artist) => artist.id === id);
-    this.artists.splice(artistIndex, 1);
+  async delete(id: string) {
+    return await this.artistRepository.delete({ id });
   }
 }

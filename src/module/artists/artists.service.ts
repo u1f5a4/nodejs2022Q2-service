@@ -1,4 +1,4 @@
-import { v4 as uuid, validate } from 'uuid';
+import { validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -14,18 +14,14 @@ export class ArtistsService {
   ) {}
 
   create(createArtistDto: CreateArtistDto) {
-    const artist = {
-      id: uuid(),
-      ...createArtistDto,
-    };
-    return this.artistsDB.create(artist);
+    return this.artistsDB.create(createArtistDto);
   }
 
   getAll() {
     return this.artistsDB.getAll();
   }
 
-  getById(id: string) {
+  async getById(id: string) {
     return this.artistsDB.getById(id);
   }
 

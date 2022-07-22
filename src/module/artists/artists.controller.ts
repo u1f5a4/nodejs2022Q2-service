@@ -23,43 +23,46 @@ export class ArtistsController {
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  create(@Body() createArtistDto: CreateArtistDto) {
+  async create(@Body() createArtistDto: CreateArtistDto) {
     return this.artistsService.create(createArtistDto);
   }
 
   @Get()
-  getAll() {
+  async getAll() {
     return this.artistsService.getAll();
   }
 
   @Get(':id')
-  getById(@Param('id') id: string) {
+  async getById(@Param('id') id: string) {
     this.validateUUID(id);
-    this.exists(id);
+    await this.exists(id);
 
     return this.artistsService.getById(id);
   }
 
   @Put(':id')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  update(@Param('id') id: string, @Body() updateArtistDto: UpdateArtistDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateArtistDto: UpdateArtistDto,
+  ) {
     this.validateUUID(id);
-    this.exists(id);
+    await this.exists(id);
 
     return this.artistsService.update(id, updateArtistDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     this.validateUUID(id);
-    this.exists(id);
+    await this.exists(id);
 
     this.artistsService.delete(id);
   }
 
-  private exists(id: string) {
-    const artist = this.artistsService.getById(id);
+  private async exists(id: string) {
+    const artist = await this.artistsService.getById(id);
     if (!artist) {
       throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
