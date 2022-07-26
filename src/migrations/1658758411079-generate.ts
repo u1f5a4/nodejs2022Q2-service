@@ -16,6 +16,18 @@ export class generate1658758411079 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "track" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "artistId" character varying, "albumId" character varying, "duration" integer NOT NULL, CONSTRAINT "PK_0631b9bcf521f8fab3a15f2c37e" PRIMARY KEY ("id"))`,
     );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS public."user"
+      (
+          id uuid NOT NULL DEFAULT uuid_generate_v4(),
+          login character varying COLLATE pg_catalog."default" NOT NULL,
+          password character varying COLLATE pg_catalog."default" NOT NULL,
+          version integer NOT NULL,
+          "createdAt" timestamp without time zone NOT NULL DEFAULT now(),
+          "updatedAt" timestamp without time zone NOT NULL DEFAULT now(),
+          CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY (id)
+      )`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -23,5 +35,6 @@ export class generate1658758411079 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "favs"`);
     await queryRunner.query(`DROP TABLE "artist"`);
     await queryRunner.query(`DROP TABLE "album"`);
+    await queryRunner.query(`DROP TABLE "user"`);
   }
 }
