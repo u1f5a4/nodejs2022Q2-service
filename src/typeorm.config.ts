@@ -1,6 +1,6 @@
 import 'dotenv/config';
-
 import { DataSourceOptions } from 'typeorm';
+
 import { AlbumEntity } from './module/albums/entities/album.entity';
 import { ArtistEntity } from './module/artists/entities/artist.entity';
 import { FavsEntity } from './module/favs/entities/favs.entity';
@@ -14,9 +14,9 @@ export default {
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  synchronize: true,
+  synchronize: false,
   entities: [UserEntity, TrackEntity, AlbumEntity, ArtistEntity, FavsEntity],
-  migrations: ['src/migration/**/*.ts'],
-  migrationRun: true,
+  migrations: ['dist/migrations/*.js'],
+  migrationsRun: true,
   logging: true,
 } as DataSourceOptions;

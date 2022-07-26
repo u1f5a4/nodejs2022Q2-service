@@ -19,7 +19,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "scan": "docker scan 94aaad/nodejs2022q2-service:latest"
+    "scan": "docker scan 94aaad/nodejs2022q2-service:latest",
+    "typeorm": "npm run build && npx typeorm-ts-node-esm",
+    "typeorm:create": "node ./node_modules/typeorm/cli migration:create src/migrations/post",
+    "typeorm:generate": "npm run typeorm migration:generate src/migrations/generate  -- --dataSource dist/typeorm-datasource.config.js",
+    "typeorm:revert": "npm run typeorm migration:revert -- --dataSource dist/typeorm-datasource.config.js",
+    "typeorm:migration": "npm run typeorm migration:run -- --dataSource dist/typeorm-datasource.config.js"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
