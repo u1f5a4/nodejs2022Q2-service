@@ -3,13 +3,7 @@ import 'dotenv/config';
 
 import { FileWriter } from './filewriter.service';
 
-enum LogLevel {
-  'LOG' = 1,
-  'DEBUG',
-  'WARN',
-  'ERROR',
-  'VERBOSE',
-}
+const LogLevel = ['LOG', 'DEBUG', 'WARN', 'ERROR', 'VERBOSE'];
 
 @Injectable()
 export class Logger extends ConsoleLogger {
@@ -19,7 +13,8 @@ export class Logger extends ConsoleLogger {
     super();
 
     const logLevels = process.env.LOG_LEVEL.split(',');
-    this.logLevel = logLevels.map((level) => LogLevel[Number(level)]);
+    this.logLevel = LogLevel.slice(0, Number(logLevels));
+    console.log(this.logLevel);
   }
 
   use(req: any, res: any, next: any) {
