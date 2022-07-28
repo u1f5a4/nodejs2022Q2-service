@@ -14,7 +14,6 @@ export class Logger extends ConsoleLogger {
 
     const logLevels = process.env.LOG_LEVEL.split(',');
     this.logLevel = LogLevel.slice(0, Number(logLevels));
-    console.log(this.logLevel);
   }
 
   use(req: any, res: any, next: any) {
