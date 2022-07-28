@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
@@ -12,6 +12,8 @@ import { FavsModule } from './module/favs/favs.module';
 import { DeleteFieldModule } from './module/delete-field/delete-field.module';
 import { DBModule } from './module/db/db.module';
 import typeormConfig from './typeorm.config';
+import { LoggerModule } from './module/logger/logger.module';
+import { Logger } from './module/logger/logger.service';
 
 @Module({
   imports: [
@@ -24,8 +26,13 @@ import typeormConfig from './typeorm.config';
     DeleteFieldModule,
     DBModule,
     TypeOrmModule.forRoot(typeormConfig),
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(Logger).forRoutes('*');
+  }
+}
