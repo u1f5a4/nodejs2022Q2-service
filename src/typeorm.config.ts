@@ -18,5 +18,5 @@ export default {
   entities: [UserEntity, TrackEntity, AlbumEntity, ArtistEntity, FavsEntity],
   migrations: ['dist/migrations/*.js'],
   migrationsRun: true,
-  logging: true,
+  logging: false,
 } as DataSourceOptions;
