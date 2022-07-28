@@ -1,7 +1,15 @@
 import { ConsoleLogger, Injectable } from '@nestjs/common';
 import 'dotenv/config';
-import * as fs from 'fs';
-import * as os from 'os';
+
+import { FileWriter } from './filewriter.service';
+
+enum LogLevel {
+  'LOG' = 1,
+  'DEBUG',
+  'WARN',
+  'ERROR',
+  'VERBOSE',
+}
 
 @Injectable()
 export class Logger extends ConsoleLogger {
@@ -10,10 +18,8 @@ export class Logger extends ConsoleLogger {
   constructor() {
     super();
 
-    this.logLevel =
-      process.env.NODE_ENV === 'development'
-        ? ['log', 'debug', 'error', 'verbose', 'warn']
-        : ['error', 'warn'];
+    const logLevels = process.env.LOG_LEVEL.split(',');
+    this.logLevel = logLevels.map((level) => LogLevel[Number(level)]);
   }
 
   use(req: any, res: any, next: any) {
@@ -56,7 +62,7 @@ export class Logger extends ConsoleLogger {
     this.send(data);
   }
 
-  uncaughtException(message) {
+  uncaughtException(message: string) {
     this.send(message);
   }
 
@@ -65,42 +71,15 @@ export class Logger extends ConsoleLogger {
   }
 
   send(message: string) {
-    const type = message.split(' ')[0].toLowerCase();
+    const type = message.split(' ')[0];
     if (!this.logLevel.includes(type)) return;
 
-    if (type === 'error') {
-      const data = (this.getDate(), message);
-      console.log(data);
-      new FileWriter('errors.txt').write(data);
+    if (type === 'ERROR') {
+      const data = `${this.getDate()} ${message}`;
+      new FileWriter('src/logs/', 'errors.txt').write(data);
     }
 
-    const data = (this.getDate(), message);
-    new FileWriter('test.txt').write(data);
-  }
-}
-
-class FileWriter {
-  filename: string;
-
-  constructor(filename: string) {
-    this.filename = filename;
-  }
-
-  async write(message: string) {
-    fs.mkdirSync('src/logs');
-
-    this.checkSize();
-
-    fs.appendFileSync('src/logs/' + this.filename, message + os.EOL);
-  }
-
-  async checkSize() {
-    const stats = fs.statSync('src/logs/' + this.filename);
-    const fileSizeInBytes = stats['size'];
-    const fileSizeInKB = fileSizeInBytes / 1024;
-
-    if (fileSizeInKB > 100) {
-      fs.rmSync('src/logs/' + this.filename);
-    }
+    const data = `${this.getDate()} ${message}`;
+    new FileWriter('src/logs/', 'log.txt').write(data);
   }
 }
