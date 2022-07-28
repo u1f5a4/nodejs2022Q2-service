@@ -19,3 +19,15 @@ async function bootstrap() {
   await app.listen(PORT);
 }
 bootstrap();
+
+process.on('uncaughtException', (error) => {
+  const message = `ERROR [Uncaught exception] ${error.name}:${error.message}`;
+  new Logger().send(message);
+  // process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  const message = `ERROR [Unhandled rejection] ${reason}`;
+  new Logger().send(message);
+  // process.exit(1);
+});
