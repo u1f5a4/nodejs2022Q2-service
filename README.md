@@ -70,3 +70,28 @@ npm run format
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+### Use Docker
+
+1. Install and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+2. Open a terminal in the root folder of the project and type the command:
+
+```
+docker-compose up -d
+```
+
+
+#### DockerHub
+
+https://hub.docker.com/r/94aaad/nodejs2022q2-service/tags
+
+
+#### How scan?
+
+To scan my image, you need to login to Docker and type command:
+
+```
+npm run scan
+```
+
