@@ -27,6 +27,15 @@ export class HttpExceptionFilter {
       response.status(status).json(error);
     }
 
+    if (exception instanceof HttpException) {
+      const error = exception.getResponse();
+
+      const message = `ERROR [HttpException] ${JSON.stringify(error)}`;
+      new Logger().send(message);
+
+      response.status(status).json({ statusCode: status, message: error });
+    }
+
     const message = `ERROR [HttpExceptionFilter] ${status} ${request.method} ${request.url}`;
     new Logger().send(message);
 
