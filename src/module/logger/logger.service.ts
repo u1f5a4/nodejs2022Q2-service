@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 import { FileWriter } from './filewriter.service';
 
-const LogLevel = ['LOG', 'DEBUG', 'WARN', 'ERROR', 'VERBOSE'];
+const LogLevel = ['ERROR', 'WARN', 'LOG', 'DEBUG', 'VERBOSE'];
 
 @Injectable()
 export class Logger extends ConsoleLogger {
