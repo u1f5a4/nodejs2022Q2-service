@@ -1,5 +1,6 @@
 import {
   ArgumentsHost,
+  BadRequestException,
   Catch,
   HttpException,
   HttpStatus,
@@ -8,7 +9,7 @@ import { Logger } from './logger/logger.service';
 
 @Catch()
 export class HttpExceptionFilter {
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
@@ -17,7 +18,16 @@ export class HttpExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message = `ERROR [HttpExceptionFilter] ${request.method} ${request.url}`;
+    if (exception instanceof BadRequestException) {
+      const error = exception.getResponse();
+
+      const message = `ERROR [BadRequestException] ${JSON.stringify(error)}`;
+      new Logger().send(message);
+
+      response.status(status).json(error);
+    }
+
+    const message = `ERROR [HttpExceptionFilter] ${status} ${request.method} ${request.url}`;
     new Logger().send(message);
 
     response.status(status).json({
