@@ -11,7 +11,7 @@ import { AlbumsModule } from './module/albums/albums.module';
 import { FavsModule } from './module/favs/favs.module';
 import { DeleteFieldModule } from './module/delete-field/delete-field.module';
 import { DBModule } from './module/db/db.module';
-import typeormConfig from './typeorm.config';
+import typeormConfig from './module/typeorm/typeorm.config';
 import { LoggerModule } from './module/logger/logger.module';
 import { Logger } from './module/logger/logger.service';
 
