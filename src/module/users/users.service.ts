@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserDto } from './dto/create-user.dto';
-import { UsersDB } from '../db/usersDB.service';
+import { UserDB } from '../db/userDB.service';
 import { FavsDB } from '../db/favsDB.service';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly usersDB: UsersDB,
+    private readonly usersDB: UserDB,
     private readonly favsDB: FavsDB,
   ) {}
 
