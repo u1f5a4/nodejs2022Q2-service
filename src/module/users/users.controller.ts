@@ -13,7 +13,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UsersService } from './users.service';
 
@@ -23,7 +23,7 @@ export class UsersController {
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  async create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: UserDto) {
     return await this.usersService.create(createUserDto);
   }
 

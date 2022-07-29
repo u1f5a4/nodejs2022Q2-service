@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-interface ICreateUserDto {
+interface IUserDto {
   login: string;
   password: string;
 }
 
-export class CreateUserDto implements ICreateUserDto {
+export class UserDto implements IUserDto {
   @IsNotEmpty()
   @IsString()
   login: string;

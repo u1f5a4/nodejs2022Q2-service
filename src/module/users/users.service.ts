@@ -2,7 +2,7 @@ import { validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/create-user.dto';
 import { UsersDB } from '../db/usersDB.service';
 import { FavsDB } from '../db/favsDB.service';
 
@@ -13,7 +13,7 @@ export class UsersService {
     private readonly favsDB: FavsDB,
   ) {}
 
-  async create(userData: CreateUserDto) {
+  async create(userData: UserDto) {
     const user = await this.usersDB.create(userData);
     await this.favsDB.create('1');
     return user;
