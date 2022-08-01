@@ -1,15 +1,15 @@
-import * as bcrypt from 'bcrypt';
 import * as jsonwebtoken from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
-import { UserAuthDto } from './dto/user-auth.dto';
-import { UsersDB } from '../../module/db/usersDB.service';
+import { UsersDB } from 'src/module/db/usersDB.service';
+import { UserDto } from '../users/dto/user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly usersDB: UsersDB) {}
 
-  async signup(userDto: UserAuthDto) {
+  async signup(userDto: UserDto) {
     const { login, password } = userDto;
     const hash = await this.generateHash(password);
 
@@ -17,7 +17,7 @@ export class AuthService {
     await this.usersDB.create(newUser);
   }
 
-  async login(userDto: UserAuthDto) {
+  async login(userDto: UserDto) {
     const { login, password } = userDto;
 
     const user = await this.usersDB.getUserByLogin(login);

@@ -2,7 +2,6 @@ import { DataSourceOptions } from 'typeorm';
 
 import { AlbumEntity } from '../../endpoints/albums/entities/album.entity';
 import { ArtistEntity } from '../../endpoints/artists/entities/artist.entity';
-import { UsersEntity } from '../../endpoints/auth/entities/users.entity';
 import { FavsEntity } from '../../endpoints/favs/entities/favs.entity';
 import { TrackEntity } from '../../endpoints/tracks/entities/track.entity';
 import { UserEntity } from '../../endpoints/users/entities/user.entity';
@@ -15,14 +14,7 @@ export default {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   synchronize: false,
-  entities: [
-    UserEntity,
-    UsersEntity,
-    TrackEntity,
-    AlbumEntity,
-    ArtistEntity,
-    FavsEntity,
-  ],
+  entities: [UserEntity, TrackEntity, AlbumEntity, ArtistEntity, FavsEntity],
   migrations: ['dist/module/typeorm/migrations/*.js'],
   migrationsRun: true,
   logging: false,

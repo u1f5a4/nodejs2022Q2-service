@@ -13,7 +13,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { UserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UsersService } from './users.service';
 

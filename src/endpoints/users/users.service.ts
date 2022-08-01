@@ -2,14 +2,14 @@ import { validate } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { UserDto } from './dto/create-user.dto';
-import { UserDB } from '../../module/db/userDB.service';
+import { UserDto } from './dto/user.dto';
 import { FavsDB } from '../../module/db/favsDB.service';
+import { UsersDB } from 'src/module/db/usersDB.service';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly usersDB: UserDB,
+    private readonly usersDB: UsersDB,
     private readonly favsDB: FavsDB,
   ) {}
 
