@@ -7,13 +7,16 @@ import {
   HttpStatus,
   HttpException,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 
 import { AlbumsService } from '../albums/albums.service';
 import { ArtistsService } from '../artists/artists.service';
+import { AuthGuard } from '../auth/auth.guard';
 import { TracksService } from '../tracks/tracks.service';
 import { FavsService } from './favs.service';
 
+@UseGuards(AuthGuard)
 @Controller('favs')
 export class FavsController {
   constructor(
