@@ -4,13 +4,11 @@ import * as jsonwebtoken from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
 
 import { UserAuthDto } from './dto/user-auth.dto';
-import { UsersDB } from '../db/usersDB.service';
+import { UsersDB } from '../../module/db/usersDB.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersDB: UsersDB) {
-    console.log('AuthService created');
-  }
+  constructor(private readonly usersDB: UsersDB) {}
 
   async signup(userDto: UserAuthDto) {
     const { login, password } = userDto;

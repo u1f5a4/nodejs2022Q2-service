@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Track } from '../interfaces';
-import { CreateTrackDto } from '../tracks/dto/create-track.dto';
-import { TrackEntity } from '../tracks/entities/track.entity';
+import { CreateTrackDto } from '../../endpoints/tracks/dto/create-track.dto';
+import { TrackEntity } from '../../endpoints/tracks/entities/track.entity';
 
 @Injectable()
 export class TracksDB {

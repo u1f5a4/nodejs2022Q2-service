@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { AlbumsService } from '../albums/albums.service';
 import { ArtistsService } from '../artists/artists.service';
-import { FavsDB } from '../db/favsDB.service';
+import { FavsDB } from '../../module/db/favsDB.service';
 import { TracksService } from '../tracks/tracks.service';
 
 @Injectable()

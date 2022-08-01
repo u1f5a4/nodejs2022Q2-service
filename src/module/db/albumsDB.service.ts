@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AlbumEntity } from '../albums/entities/album.entity';
+import { AlbumEntity } from '../../endpoints/albums/entities/album.entity';
 
 import { Album } from '../interfaces';
 

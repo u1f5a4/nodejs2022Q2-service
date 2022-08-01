@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserDto } from './dto/create-user.dto';
-import { UserDB } from '../db/userDB.service';
-import { FavsDB } from '../db/favsDB.service';
+import { UserDB } from '../../module/db/userDB.service';
+import { FavsDB } from '../../module/db/favsDB.service';
 
 @Injectable()
 export class UsersService {

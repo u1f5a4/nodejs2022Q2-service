@@ -3,12 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './module/auth/auth.module';
-import { UsersModule } from './module/users/users.module';
-import { TracksModule } from './module/tracks/tracks.module';
-import { ArtistsModule } from './module/artists/artists.module';
-import { AlbumsModule } from './module/albums/albums.module';
-import { FavsModule } from './module/favs/favs.module';
+import { AuthModule } from './endpoints/auth/auth.module';
+import { UsersModule } from './endpoints/users/users.module';
+import { TracksModule } from './endpoints/tracks/tracks.module';
+import { ArtistsModule } from './endpoints/artists/artists.module';
+import { AlbumsModule } from './endpoints/albums/albums.module';
+import { FavsModule } from './endpoints/favs/favs.module';
 import { DeleteFieldModule } from './module/delete-field/delete-field.module';
 import { DBModule } from './module/db/db.module';
 import typeormConfig from './module/typeorm/typeorm.config';

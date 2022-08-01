@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { DeleteFieldService } from '../delete-field/delete-field.service';
-import { ArtistsDB } from '../db/artistsDB.service';
+import { DeleteFieldService } from '../../module/delete-field/delete-field.service';
+import { ArtistsDB } from '../../module/db/artistsDB.service';
 
 @Injectable()
 export class ArtistsService {

@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { DeleteFieldService } from '../delete-field/delete-field.service';
-import { AlbumsDB } from '../db/albumsDB.service';
+import { DeleteFieldService } from '../../module/delete-field/delete-field.service';
+import { AlbumsDB } from '../../module/db/albumsDB.service';
 
 @Injectable()
 export class AlbumsService {

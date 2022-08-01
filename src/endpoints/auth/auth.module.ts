@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { DBModule } from '../db/db.module';
+import { DBModule } from '../../module/db/db.module';
 
 @Module({
   imports: [DBModule],

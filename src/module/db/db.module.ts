@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { UserEntity } from '../users/entities/user.entity';
-import { TrackEntity } from '../tracks/entities/track.entity';
-import { AlbumEntity } from '../albums/entities/album.entity';
-import { ArtistEntity } from '../artists/entities/artist.entity';
-import { FavsEntity } from '../favs/entities/favs.entity';
-import { UsersEntity } from '../auth/entities/users.entity';
+import { UserEntity } from '../../endpoints/users/entities/user.entity';
+import { TrackEntity } from '../../endpoints/tracks/entities/track.entity';
+import { AlbumEntity } from '../../endpoints/albums/entities/album.entity';
+import { ArtistEntity } from '../../endpoints/artists/entities/artist.entity';
+import { FavsEntity } from '../../endpoints/favs/entities/favs.entity';
+import { UsersEntity } from '../../endpoints/auth/entities/users.entity';
 import { AlbumsDB } from './albumsDB.service';
 import { ArtistsDB } from './artistsDB.service';
 import { FavsDB } from './favsDB.service';

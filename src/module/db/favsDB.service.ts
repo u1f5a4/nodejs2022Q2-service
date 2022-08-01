@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FavsEntity } from '../favs/entities/favs.entity';
+import { FavsEntity } from '../../endpoints/favs/entities/favs.entity';
 
 @Injectable()
 export class FavsDB {

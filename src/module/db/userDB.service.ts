@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { UserDto } from '../users/dto/create-user.dto';
-import { UpdatePasswordDto } from '../users/dto/update-password.dto';
-import { UserEntity } from '../users/entities/user.entity';
+import { UserDto } from '../../endpoints/users/dto/create-user.dto';
+import { UpdatePasswordDto } from '../../endpoints/users/dto/update-password.dto';
+import { UserEntity } from '../../endpoints/users/entities/user.entity';
 
 @Injectable()
 export class UserDB {

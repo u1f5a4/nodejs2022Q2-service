@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { DeleteFieldService } from '../delete-field/delete-field.service';
-import { TracksDB } from '../db/tracksDB.service';
+import { DeleteFieldService } from '../../module/delete-field/delete-field.service';
+import { TracksDB } from '../../module/db/tracksDB.service';
 
 @Injectable()
 export class TracksService {
