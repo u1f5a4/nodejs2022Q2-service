@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import 'dotenv/config';
 
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './module/http-exception.filter';
+import { HttpExceptionFilter } from './module/http-exception/http-exception.filter';
 import { Logger } from './module/logger/logger.service';
 
 const PORT = process.env.PORT || 4000;
