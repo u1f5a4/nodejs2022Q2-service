@@ -1,4 +1,4 @@
-import * as jsonwebtoken from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
@@ -7,7 +7,10 @@ import { UserDto } from '../users/dto/user.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersDB: UsersDB) {}
+  constructor(
+    private readonly usersDB: UsersDB,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async signup(userDto: UserDto) {
     const { login, password } = userDto;
@@ -35,6 +38,10 @@ export class AuthService {
     return refreshToken;
   }
 
+  public async verifyToken(token: string) {
+    return this.jwtService.verifyAsync(token);
+  }
+
   private async generateHash(password: string) {
     const salt = Number(process.env.CRYPT_SALT);
     return await bcrypt.hash(password, salt);
@@ -45,11 +52,6 @@ export class AuthService {
   }
 
   private async generateJWT(userId: string, login: string) {
-    const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
-    const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME;
-
-    return jsonwebtoken.sign({ userId, login }, JWT_SECRET_KEY, {
-      expiresIn: TOKEN_EXPIRE_TIME,
-    });
+    return this.jwtService.signAsync({ userId, login });
   }
 }
