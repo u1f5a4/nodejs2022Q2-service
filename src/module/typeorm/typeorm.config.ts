@@ -1,4 +1,5 @@
 import { DataSourceOptions } from 'typeorm';
+import 'dotenv/config';
 
 import { AlbumEntity } from '../../endpoints/albums/entities/album.entity';
 import { ArtistEntity } from '../../endpoints/artists/entities/artist.entity';
