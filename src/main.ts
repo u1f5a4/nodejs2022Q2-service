@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import 'dotenv/config';
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './module/http-exception/http-exception.filter';

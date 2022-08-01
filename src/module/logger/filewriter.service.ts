@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as os from 'os';
-import 'dotenv/config';
 
 export class FileWriter {
   path: string;

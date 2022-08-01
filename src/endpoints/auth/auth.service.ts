@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import * as bcrypt from 'bcrypt';
 import * as jsonwebtoken from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';

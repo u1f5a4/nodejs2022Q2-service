@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { DataSourceOptions } from 'typeorm';
 
 import { AlbumEntity } from '../../endpoints/albums/entities/album.entity';

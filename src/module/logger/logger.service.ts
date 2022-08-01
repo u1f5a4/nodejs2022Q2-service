@@ -1,5 +1,4 @@
 import { ConsoleLogger, Injectable } from '@nestjs/common';
-import 'dotenv/config';
 
 import { FileWriter } from './filewriter.service';
 
