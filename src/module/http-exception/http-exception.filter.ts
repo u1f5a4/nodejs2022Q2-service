@@ -4,9 +4,11 @@ import {
   Catch,
   HttpException,
   HttpStatus,
+  Injectable,
 } from '@nestjs/common';
 import { Logger } from '../logger/logger.service';
 
+@Injectable()
 @Catch()
 export class HttpExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
@@ -17,6 +19,15 @@ export class HttpExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
+
+    // TODO: попробовать обработать остальные ошибки также
+    const classNameError = exception.constructor.name;
+    if (['JsonWebTokenError', 'ForbiddenException'].includes(classNameError)) {
+      new Logger().send(`ERROR [${classNameError}] ${exception.message}`);
+
+      const error = exception.getResponse();
+      response.status(status).json(error);
+    }
 
     if (exception instanceof BadRequestException) {
       const error = exception.getResponse();
