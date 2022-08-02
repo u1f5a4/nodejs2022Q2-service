@@ -38,10 +38,6 @@ export class AuthService {
     return refreshToken;
   }
 
-  public async verifyToken(token: string) {
-    return this.jwtService.verifyAsync(token);
-  }
-
   private async generateHash(password: string) {
     const salt = Number(process.env.CRYPT_SALT);
     return await bcrypt.hash(password, salt);
